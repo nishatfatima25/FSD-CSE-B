@@ -1,0 +1,12 @@
+in cmd 
+code . => opens vs code
+
+git clone repolink => clones repo
+
+git add . -> add changes done in local repo
+git commit -m "msg" -> commit 
+git push -> push the entire code
+
+git pull -> only fetches that changes which has been made by new dev recently
+
+git pull origin main -> jo bhi main branch me changes hue hain wo add ho jayenge
