@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe List</title>
+    <style>
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #e0f7fa, #f1f8e9);
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #00796b;
+            text-shadow: 1px 1px 2px #aaa;
+        }
+
+        
+        table {
+            width: 90%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #ffffffcc;
+        }
+        thead {
+            background: #00796b;
+            color: #fff;
+        }
+        th, td {
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        tbody tr {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        tbody tr:hover {
+            background: #b2dfdb;
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #00796b;
+        }
+
+       
+        @media screen and (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            th {
+                display: none;
+            }
+            tbody tr {
+                margin-bottom: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 12px;
+                background: #ffffffcc;
+            }
+            td {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+            }
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                flex-basis: 50%;
+                text-align: left;
+            }
+            img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Recipe List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Rating</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const url = "https://dummyjson.com/recipes";
+        const fetchRecipes = async () => {
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                const tbody = document.querySelector("tbody");
+                data.recipes.forEach((recipe, index) => {
+                    const row = document.createElement("tr");
+
+                    // S.No
+                    const col1 = document.createElement("td");
+                    col1.innerText = index + 1;
+                    col1.setAttribute("data-label", "S.No");
+                    row.appendChild(col1);
+
+                    // Name
+                    const col2 = document.createElement("td");
+                    col2.innerText = recipe.name;
+                    col2.setAttribute("data-label", "Name");
+                    row.appendChild(col2);
+
+                    // Image
+                    const col3 = document.createElement("td");
+                    const img = document.createElement("img");
+                    img.src = recipe.image;
+                    col3.appendChild(img);
+                    col3.setAttribute("data-label", "Image");
+                    row.appendChild(col3);
+
+                    // Rating
+                    const col4 = document.createElement("td");
+                    col4.innerText = recipe.rating;
+                    col4.setAttribute("data-label", "Rating");
+                    row.appendChild(col4);
+
+                    // Price (Random ₹500–₹5000)
+                    const col5 = document.createElement("td");
+                    const price = Math.floor(Math.random() * 4500 + 500);
+                    col5.innerText = "₹" + price;
+                    col5.setAttribute("data-label", "Price");
+                    row.appendChild(col5);
+
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                console.error("Error fetching recipes:", err);
+            }
+        };
+        fetchRecipes();
+    </script>
+</body>
+</html>
